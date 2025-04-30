@@ -25,13 +25,13 @@ export default class LumensDistributed extends AmountWidget {
 
   updateAmount() {
     distributionAll().then(amount => {
-      this.setState({amount, code: "HCX", loading: false});
+      this.setState({amount, code: "WBB", loading: false});
     })
   }
 
   renderName() {
     return <div>
-      <span>HCX Distributed</span>
+      <span>WBB Distributed</span>
 {/*      <a href="/api/lumens" target="_blank" className="api-link">API</a>*/}
     </div>
   }

@@ -6,10 +6,21 @@ import map from "lodash/map";
 import reduce from "lodash/reduce";
 import find from "lodash/find";
 
-const horizonLiveURL = "https://bitpaymentz.com";
+//const horizonLiveURL = "https://horizon.stellar.org";
+//const horizonLiveURL = "https://ec2-54-153-84-236.us-west-1.compute.amazonaws.com:8000";
+//const horizonLiveURL = "https://horizon.worldblockchainbank.org:8000";
+const horizonLiveURL = "https://horizon.worldblockchainbank.org";
 
 const accounts = {
-
+//  worldGiveaway:       "GDKIJJIKXLOM2NRMPNQZUUYK24ZPVFC6426GZAEP3KUK6KEJLACCWNMX",
+ // partnerships:        "GDUY7J7A33TQWOSOQGDO776GGLM3UQERL4J3SPT56F6YS4ID7MLDERI4",
+//  btcGiveawayCold:     "GDTNE54IWDB3UQLMIUSBKIDTMUW7FNKBU4VB2GVW4OL65BZN7W5VRNVY",
+//  btcGiveawayHot:      "GBVVWWN4YP76FKGO7RB42FSZDYD2PBXY2PJY3F6JJWLYU74TKUG775UP",
+//  invitesHot:          "GAX3BRBNB5WTJ2GNEFFH7A4CZKT2FORYABDDBZR5FIIT3P7FLS2EFOZZ",
+  //sdfOperationalFunds: "GB6NVEN5HSUBKMYCE5ZOWSK5K23TBWRUQLZY3KNMXUZ3AQ2ESC4MY4AQ",
+//  vestingPool:         "GANOI26P6VAUL4NFVA4FAIOIBOR46NORONBIWUPRIGAMP7T5W5MOY4O6",
+//  cashAccount:         "GAYOCVRRNXGQWREOZBDP4UEW475NKZKLA4EIEIBKBSJN2PQQWUQ5KGUH",
+//  inflationDest:       "GDWNY2POLGK65VVKIH5KQSH7VWLKRTQ5M6ADLJAYC2UEHEBEARCZJWWI",
 }
 
 export function getHCXBalance(horizonURL, accountId) {

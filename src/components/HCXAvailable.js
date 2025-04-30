@@ -22,13 +22,13 @@ export default class HCXAvailable extends AmountWidget {
 
   updateAmount() {
     availableCoins().then(amount => {
-      this.setState({amount, code: "HCX", loading: false});
+      this.setState({amount, code: "WBB", loading: false});
     });
   }
 
   renderName() {
     return <div>
-      <span>HCX Available (not held by HC)</span>
+      <span>WBB Available (not held by HC)</span>
       <a href="/api/lumens" target="_blank" className="api-link">API</a>
     </div>
   }

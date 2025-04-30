@@ -1,0 +1,14 @@
+# Turn on the Rewrite Engine (optional, if you use mod_rewrite)
+RewriteEngine On
+
+# Set default access
+Order Allow,Deny
+Allow from all
+
+# If you want to allow all methods (GET, POST, etc.)
+<Limit GET POST PUT DELETE OPTIONS>
+  Allow from all
+</Limit>
+
+# Prevent directory browsing (optional, remove if you want browsing)
+Options -Indexes

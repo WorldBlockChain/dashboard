@@ -4,7 +4,6 @@ import Button from 'muicss/lib/react/button';
 import {EventEmitter} from 'fbemitter';
 import axios from 'axios';
 import {Server} from 'stellar-sdk';
-
 import AppBar from './AppBar';
 import Footer from './Footer';
 import AccountBalance from './AccountBalance';
@@ -18,13 +17,22 @@ import HCXDistributed from './HCXDistributed';
 import PublicNetworkLedgersHistoryChart from './PublicNetworkLedgersHistoryChart';
 import RecentOperations from './RecentOperations';
 import TotalCoins from './TotalCoins';
+import HcxPrice from './HcxPrice';
+import HcxHeldByCash from './HcxHeldByCash';
+import HcxEscrowBalance from './HcxEscrowBalance';
+import HcxTotalSupply from './HcxTotalSupply';
 import TransactionsChart from './TransactionsChart';
+import Successfulltransaction from './SuccessfulTransaction';
 import {LIVE_NEW_LEDGER, LIVE_NEW_OPERATION, TEST_NEW_LEDGER, TEST_NEW_OPERATION} from '../events';
 
-const horizonLive = "https://bitpaymentz.com";
-
+//const horizonLive = "https://horizon-mon.stellar-ops.com";
+//const horizonLive = "https://ec2-54-153-84-236.us-west-1.compute.amazonaws.com:8000";
+//const horizonLive = "https://horizon.worldblockchainbank.org:8000";
+const horizonLive = "https://horizon.worldblockchainbank.org";
+const horizonLive1 = "https://wallet.worldblockchainbank.org:7443";
+//const horizonTest = "https://horizon-testnet.stellar.org";
 const horizonTest ="https://network.paybito.com";
-
+//const horizonTest = "http://ec2-54-153-84-236.us-west-1.compute.amazonaws.com:8000";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -65,8 +73,8 @@ export default class App extends React.Component {
     this.streamLedgers(horizonLive, LIVE_NEW_LEDGER);
     this.streamOperations(horizonLive, LIVE_NEW_OPERATION);
 
-    this.streamLedgers(horizonTest, TEST_NEW_LEDGER);
-    this.streamOperations(horizonTest, TEST_NEW_OPERATION);
+    //this.streamLedgers(horizonTest, TEST_NEW_LEDGER);
+    //this.streamOperations(horizonTest, TEST_NEW_OPERATION);
   }
 
   reloadOnConnection() {
@@ -151,17 +159,79 @@ export default class App extends React.Component {
           null
         }
 
-        <div id="main" className="mui-container-fluid">
+        <div id="main" className="mui-container-fluid background">
           <section>
-            <h1>Live network status</h1>
+            <h1></h1>
             <div className="row">
-              <div className="mui-col-md-4">
+              <div className="mui-col-md-12 uprunningblock">
                 <NetworkStatus
                   network="Live network"
                   horizonURL={horizonLive}
                   newLedgerEventName={LIVE_NEW_LEDGER}
                   emitter={this.emitter}
                   />
+                 </div>
+                 <section>
+                 {/* <h1 className="hcxdstributn">HCX distribution</h1> */}
+                 <div className="row">
+                  <div className="mui-col-md-12">
+                  <HcxTotalSupply
+                horizonURL={horizonLive}
+                />
+                </div>
+               {/*  <div className="mui-col-md-3">
+                  <HcxPrice
+                horizonURL={horizonLive}
+                />
+                </div> */}
+               {/*  <div className="mui-col-md-3">
+                  <HcxEscrowBalance
+                horizonURL={horizonLive}
+                />
+                </div> */}
+                {/* <div className="mui-col-md-3">
+                  <HcxHeldByCash
+                horizonURL={horizonLive}
+                />
+                  </div> */}
+                  </div>
+                  </section>
+                 
+                 
+              <div className="row">
+              <div className="mui-col-md-12">
+              <PublicNetworkLedgersHistoryChart 
+              //  network="Live network"
+              //  horizonURL={horizonLive1}
+              //  limit="15"
+              //  newLedgerEventName={LIVE_NEW_LEDGER}
+              //  emitter={this.emitter}
+               />
+                <TransactionsChart
+                  network="Live network"
+                  horizonURL={horizonLive}
+                  limit="200"
+                  newLedgerEventName={LIVE_NEW_LEDGER}
+                  emitter={this.emitter}
+                  />
+                   <Successfulltransaction
+                  network="Live network"
+                  horizonURL={horizonLive}
+                  limit="100"
+                  newLedgerEventName={LIVE_NEW_LEDGER}
+                  emitter={this.emitter}
+                  />
+                <LedgerCloseChart
+                  network="Live network"
+                  horizonURL={horizonLive}
+                  limit="200"
+                  newLedgerEventName={LIVE_NEW_LEDGER}
+                  emitter={this.emitter}
+                  />
+              </div>
+            </div>
+            <div className="row">
+                  <div className="mui-col-md-12">
                 <RecentOperations
                   limit="20"
                   label="Live network"
@@ -170,49 +240,41 @@ export default class App extends React.Component {
                   emitter={this.emitter}
                   />
               </div>
-              <div className="mui-col-md-8">
-                <LedgerCloseChart
-                  network="Live network"
-                  horizonURL={horizonLive}
-                  limit="200"
-                  newLedgerEventName={LIVE_NEW_LEDGER}
-                  emitter={this.emitter}
-                  />
-                <TransactionsChart
-                  network="Live network"
-                  horizonURL={horizonLive}
-                  limit="200"
-                  newLedgerEventName={LIVE_NEW_LEDGER}
-                  emitter={this.emitter}
-                  />
-                <PublicNetworkLedgersHistoryChart />
               </div>
             </div>
           </section>
 
-	    <section>
-            <h1>HCX distribution</h1>
-	     <div className="mui-col-md-4">
-
-            </div>
-  
-
-            <div className="mui-col-md-4">
-              <TotalCoins
+	    {/* <section>
+            <h1>WBB distribution</h1>
+            <div className="row">
+                  <div className="mui-col-md-3">
+                  <HcxTotalSupply
                 horizonURL={horizonLive}
                 />
-            </div>
-{/*	  <div className="mui-col-md-4">
-              <HCXDistributed />
-            </div>*/}
-        
+                </div>
+                <div className="mui-col-md-3">
+                  <HcxPrice
+                horizonURL={horizonLive}
+                />
+                </div>
+                <div className="mui-col-md-3">
+                  <HcxEscrowBalance
+                horizonURL={horizonLive}
+                />
+                </div>
+                <div className="mui-col-md-3">
+                  <HcxHeldByCash
+                horizonURL={horizonLive}
+                />
+                  </div>
+                  </div>
           </section>
 
     
 
           <section>
             <h1>Test network status</h1>
-            <div className="mui-col-md-4">
+            <div className="mui-col-md-12">
               <NetworkStatus
                 network="Test network"
                 horizonURL={horizonTest}
@@ -227,7 +289,14 @@ export default class App extends React.Component {
                 emitter={this.emitter}
                 />
             </div>
-            <div className="mui-col-md-8">
+            <div className="mui-col-md-12">
+            <TransactionsChart
+                network="Test network"
+                horizonURL={horizonTest}
+                limit="200"
+                newLedgerEventName={TEST_NEW_LEDGER}
+                emitter={this.emitter}
+                />
               <LedgerCloseChart
                 network="Test network"
                 horizonURL={horizonTest}
@@ -235,24 +304,10 @@ export default class App extends React.Component {
                 newLedgerEventName={TEST_NEW_LEDGER}
                 emitter={this.emitter}
                 />
-              <TransactionsChart
-                network="Test network"
-                horizonURL={horizonTest}
-                limit="200"
-                newLedgerEventName={TEST_NEW_LEDGER}
-                emitter={this.emitter}
-                />
             </div>
-{/*            <div className="mui-col-md-4">
-              <AccountBalance
-                horizonURL={horizonTest}
-                name="Friendbot"
-                id="GBS43BF24ENNS3KPACUZVKK2VYPOZVBQO2CISGZ777RYGOPYC2FT6S3K"
-                />
-            </div>*/}
-          </section>
+          </section> */}
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

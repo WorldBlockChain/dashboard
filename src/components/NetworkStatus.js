@@ -74,26 +74,26 @@ export default class NetworkStatus extends React.Component {
     let averageLedgerLength = this.state.ledgerLengthSum/ledgersInAverageCalculation;
     if (this.state.loading) {
       statusText = <strong className="mui--text-body2">Loading...</strong>
-    } else if (this.state.closedAgo >= 90) { // If last ledger closed more than 90 seconds ago it means network is down.
+    } else if (this.state.closedAgo >= 220) { // If last ledger closed more than 90 seconds ago it means network is down.
       statusClass = "down";
       statusText = <strong className="mui--text-body2" style={{color: "#666"}}>Network down!</strong>
     } else {
       // Now we check the average close time but we also need to check the latest ledger
       // close time because if there are no new ledgers it means that network is slow or down.
-      if (averageLedgerLength <= 10 && this.state.closedAgo < 20) {
+      //if (averageLedgerLength <= 10 && this.state.closedAgo < 20) {
         statusText = <strong className="mui--text-body2" style={{color: "#2196f3"}}>Up and running!</strong>
-      } else if (averageLedgerLength <= 15 && this.state.closedAgo < 40) {
-        statusClass = "slow";
-        statusText = <strong className="mui--text-body2" style={{color: "orange"}}>Network slow!</strong>
-      } else {
-        statusClass = "very-slow";
-        statusText = <strong className="mui--text-body2" style={{color: "red"}}>Network very slow!</strong>
-      }
+     // } else if (averageLedgerLength <= 15 && this.state.closedAgo < 40) {
+       // statusClass = "slow";
+      //  statusText = <strong className="mui--text-body2" style={{color: "orange"}}>Network slow!</strong>
+     // } else {
+      //  statusClass = "very-slow";
+        //statusText = <strong className="mui--text-body2" style={{color: "red"}}>Network very slow!</strong>
+      //}
     }
 
     return (
       <Panel>
-        <div className="widget-name">
+        <div className="widget-name background">
           Network Status: {this.props.network}
         </div>
         <div className="mui--text-center">

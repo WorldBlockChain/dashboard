@@ -28,8 +28,8 @@ export default class TransactionsChart extends React.Component {
 
   onNewLedger(ledger) {
     let data = clone(this.state.data);
-    data[0].values.push({x: ledger.sequence.toString(), y: ledger.transaction_count});
-    data[1].values.push({x: ledger.sequence.toString(), y: ledger.operation_count-ledger.transaction_count});
+    data[0].values.push({x: ledger.sequence.toString(), y: ledger.successful_transaction_count});
+    data[1].values.push({x: ledger.sequence.toString(), y: ledger.operation_count-ledger.successful_transaction_count});
     data[0].values.shift();
     data[1].values.shift();
     this.setState({loading: false, data});
@@ -46,11 +46,13 @@ export default class TransactionsChart extends React.Component {
           values: []
         }];
         each(response.data._embedded.records, ledger => {
-          data[0].values.unshift({x: ledger.sequence.toString(), y: ledger.transaction_count});
-          data[1].values.unshift({x: ledger.sequence.toString(), y: ledger.operation_count-ledger.transaction_count});
+          data[0].values.unshift({x: ledger.sequence.toString(), y: ledger.successful_transaction_count});
+          data[1].values.unshift({x: ledger.sequence.toString(), y: ledger.operation_count-ledger.successful_transaction_count});
         });
-        this.setState({loading: false, data});
-        // Start listening to events
+        this.setState({loading: false, data},()=>{
+          console.log(data);
+        });
+       
         this.props.emitter.addListener(this.props.newLedgerEventName, this.onNewLedger.bind(this));
       });
   }
@@ -59,9 +61,9 @@ export default class TransactionsChart extends React.Component {
     return (
       <div ref={(el) => { this.panel = el; }}>
         <Panel>
-          <div className="widget-name">
+          <div className="widget-name transactionledger">
             <span style={{borderBottom: '2px solid #0074B7'}}>Txs
-            </span> &amp; <span style={{borderBottom: '2px solid #0074B7'}}>Op</span><span style={{borderBottom: '2px solid #FF6F00'}}>s</span> in the last {this.props.limit} ledgers: {this.props.network}
+            </span> &amp; <span style={{borderBottom: '2px solid #0074B7'}}>Op</span><span style={{borderBottom: '2px solid #FF6F00'}}>s</span> in the last {this.props.limit} ledgers
 {/*
             <a href={this.url} target="_blank" className="api-link">API</a>*/}
 

@@ -60,7 +60,7 @@ export default class ListAccounts extends React.Component {
                 Object.keys(this.state.balances).map(key => { 
                   return <tr key={key}>
                     <td><AccountBadge horizonURL={this.props.horizonURL} id={key} /></td>
-                    <td className="amount-column">{typeof this.state.balances[key] === "undefined" ? "Loading..." : `${this.state.balances[key].toFormat(0, BigNumber.ROUND_FLOOR)} HCX`}</td>
+                    <td className="amount-column">{typeof this.state.balances[key] === "undefined" ? "Loading..." : `${this.state.balances[key].toFormat(0, BigNumber.ROUND_FLOOR)} WBB`}</td>
                   </tr>
                 })
               }
@@ -68,7 +68,7 @@ export default class ListAccounts extends React.Component {
             <tfoot>
               <tr>
                 <th>Sum</th>
-                <th className="amount-column">{sum.toFormat(0, BigNumber.ROUND_FLOOR)} HCX</th>
+                <th className="amount-column">{sum.toFormat(0, BigNumber.ROUND_FLOOR)} WBB</th>
               </tr>
             </tfoot>
           </table>

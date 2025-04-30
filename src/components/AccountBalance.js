@@ -27,7 +27,7 @@ export default class AccountBalance extends AmountWidget {
       .then(response => {
         let xlmBalance = find(response.data.balances, b => b.asset_type == 'native');
         let amount = xlmBalance.balance;
-        let code = "HCX";
+        let code = "WBB";
         this.setState({amount, code, loading: false});
       });
   }

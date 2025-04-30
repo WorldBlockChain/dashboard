@@ -167,7 +167,7 @@ export default class DistributionProgress extends React.Component {
                   </tbody>
                 </table>
                 <div className="small gray margin-top10">
-                  Learn more about <a href="#" target="_blank">HCX distribution</a>.
+                  Learn more about <a href="#" target="_blank">WBB distribution</a>.
                 </div>
               </div>
           }

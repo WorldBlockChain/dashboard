@@ -33,6 +33,7 @@ const NODE_TIMEOUT = -2;
 
 var app = express();
 app.get('/ledgers/public', function(req, res) {
+  debugger;
    
    
   var day = moment();
@@ -57,7 +58,7 @@ app.get('/ledgers/public', function(req, res) {
     }
 
     for (var i = 0; i < days; i++) {
-      response[i].transaction_count = parseInt(redisRes[i][0]);
+      response[i].successful_transaction_count = parseInt(redisRes[i][0]);
       response[i].operation_count = parseInt(redisRes[i][1]);
     }
     res.header("Access-Control-Allow-Origin", "*");
@@ -138,17 +139,26 @@ app.get('/api/nodes', function(req, res) {
 
 function updateApiLumens() {
   Promise.all([
-
-lumens.totalCoins("https://bitpaymentz.com"),
+   // lumens.totalCoins("https://horizon.stellar.org"),
+//     lumens.totalCoins("https://horizon.worldblockchainbank.org:8000"),
+lumens.totalCoins("https://horizon.worldblockchainbank.org"),
     lumens.availableCoins(),
-
+//    lumens.distributionAll(),
+  //  lumens.distributionDirectSignup(),
+    //lumens.distributionBitcoinProgram(),
+//    lumens.distributionPartnershipProgram(),
+  //  lumens.distributionBuildChallenge(),
+  ]).then(function(data) {
     var response = {
       updatedAt: new Date(),
       totalCoins: data[0],
       availableCoins: data[1],
 //      distributedCoins: data[2],
       programs: {
-
+  //      directProgram: data[3],
+    //    bitcoinProgram: data[4],
+      //  partnershipProgram: data[5],
+        //buildChallenge: data[6]
       }
     };
 
@@ -229,6 +239,7 @@ function checkNodes() {
 setInterval(checkNodes, 60*1000);
 checkNodes();
 
+// Stream ledgers - get last paging_token
 redisClient.get('paging_token', function(err, pagingToken) {
   if (err) {
     console.error(err);
@@ -239,14 +250,17 @@ redisClient.get('paging_token', function(err, pagingToken) {
     pagingToken = 'now';
   }
 
-var horizon = new stellarSdk.Server('https://bitpaymentz.com');
+  //var horizon = new stellarSdk.Server('https://horizon.stellar.org');
+//  var horizon = new stellarSdk.Server('https://54.153.84.236:8000');
+//var horizon = new stellarSdk.Server('https://horizon.worldblockchainbank.org:8000');
+var horizon = new stellarSdk.Server('https://horizon.worldblockchainbank.org');
   horizon.ledgers().cursor(pagingToken).stream({
     onmessage: function(ledger) {
       var date = moment(ledger.closed_at).format("YYYY-MM-DD");
       var key = "ledger_public"+date;
 
       var multi = redisClient.multi();
-      multi.hincrby(key, "transaction_count", ledger.transaction_count);
+      multi.hincrby(key, "transaction_count", ledger.successful_transaction_count);
       multi.hincrby(key, "operation_count", ledger.operation_count);
       // Expire the key after 32 days
       multi.expire(key, 60*60*24*32);
@@ -283,7 +297,23 @@ if (process.env.DEV) {
  else {
   app.use(express.static('dist'));
 
+/*
+   app.use('/', proxy('https://bittransact.com:3443', {
+    filter: function(req, res) {
+      return req.path == "/" || req.path.indexOf(".js") >= 0 || req.path.indexOf(".html") >= 0;
+    }
+  }));
+
+*/
 }
 
 
+
+//app.listen(app.get('port'), function() {
+  //console.log('Listening on port', app.get('port'));
+//});
+//app.listen = function() {
+  //var server = http.createServer(this);
+//  return server.listen.apply(server, arguments);
+//};
 

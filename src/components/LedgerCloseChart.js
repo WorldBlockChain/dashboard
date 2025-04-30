@@ -70,8 +70,8 @@ export default class LedgerChartClose extends React.Component {
     return (
       <div ref={(el) => { this.panel = el; }}>
         <Panel>
-          <div className="widget-name">
-            Last {this.props.limit} ledgers close times: {this.props.network}
+          <div className="widget-name transactionledger">
+            Last {this.props.limit} ledgers close times
 {/*            <a href={this.url} target="_blank" className="api-link">API</a>*/}
           </div>
           {this.state.loading ?

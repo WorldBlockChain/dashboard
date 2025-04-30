@@ -41,7 +41,7 @@ This module is used by D3 [time scales](https://github.com/d3/d3-scale/blob/mast
 
 ## Installing
 
-If you use NPM, `npm install d3-time-format`. Otherwise, download the [latest release](https://github.com/d3/d3-time-format/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-time-format.v2.min.js) or as part of [D3 4.0](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
+If you use NPM, `npm install d3-time-format`. Otherwise, download the [latest release](https://github.com/d3/d3-time-format/releases/latest). You can also load directly from [d3js.org](https://d3js.org), either as a [standalone library](https://d3js.org/d3-time-format.v2.min.js) or as part of [D3](https://github.com/d3/d3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `d3` global is exported:
 
 ```html
 <script src="https://d3js.org/d3-time.v1.min.js"></script>
@@ -53,10 +53,10 @@ var format = d3.timeFormat("%x");
 </script>
 ```
 
-Locale files are hosted on [unpkg](https://unpkg.com/) and can be loaded using [d3.json](https://github.com/d3/d3-request/blob/master/README.md#json). For example, to set Russian as the default locale:
+Locale files are published to npm and can be loaded using [d3.json](https://github.com/d3/d3-request/blob/master/README.md#json). For example, to set Russian as the default locale:
 
 ```js
-d3.json("https://unpkg.com/d3-time-format@2/locale/ru-RU.json", function(error, locale) {
+d3.json("https://cdn.jsdelivr.net/npm/d3-time-format@2/locale/ru-RU.json", function(error, locale) {
   if (error) throw error;
 
   d3.timeFormatDefaultLocale(locale);
@@ -66,8 +66,6 @@ d3.json("https://unpkg.com/d3-time-format@2/locale/ru-RU.json", function(error, 
   console.log(format(new Date)); // понедельник,  5 декабря 2016 г. 10:31:59
 });
 ```
-
-[Try d3-time-format in your browser.](https://tonicdev.com/npm/d3-time-format)
 
 ## API Reference
 
@@ -111,6 +109,8 @@ Returns a new formatter for the given string *specifier*. The specifier string m
 * `%d` - zero-padded day of the month as a decimal number [01,31].
 * `%e` - space-padded day of the month as a decimal number [ 1,31]; equivalent to `%_d`.
 * `%f` - microseconds as a decimal number [000000, 999999].
+* `%g` - ISO 8601 week-based year without century as a decimal number [00,99].
+* `%G` - ISO 8601 week-based year with century as a decimal number.
 * `%H` - hour (24-hour clock) as a decimal number [00,23].
 * `%I` - hour (12-hour clock) as a decimal number [01,12].
 * `%j` - day of the year as a decimal number [001,366].
@@ -118,6 +118,7 @@ Returns a new formatter for the given string *specifier*. The specifier string m
 * `%M` - minute as a decimal number [00,59].
 * `%L` - milliseconds as a decimal number [000, 999].
 * `%p` - either AM or PM.*
+* `%q` - quarter of the year as a decimal number [1,4].
 * `%Q` - milliseconds since UNIX epoch.
 * `%s` - seconds since UNIX epoch.
 * `%S` - second as a decimal number [00,61].
@@ -129,17 +130,17 @@ Returns a new formatter for the given string *specifier*. The specifier string m
 * `%x` - the locale’s date, such as `%-m/%-d/%Y`.*
 * `%X` - the locale’s time, such as `%-I:%M:%S %p`.*
 * `%y` - year without century as a decimal number [00,99].
-* `%Y` - year with century as a decimal number.
+* `%Y` - year with century as a decimal number, such as `1999`.
 * `%Z` - time zone offset, such as `-0700`, `-07:00`, `-07`, or `Z`.
 * `%%` - a literal percent sign (`%`).
 
-Directives marked with an asterisk (\*) may be affected by the [locale definition](#localeFormat).
+Directives marked with an asterisk (\*) may be affected by the [locale definition](#locales).
 
 For `%U`, all days in a new year preceding the first Sunday are considered to be in week 0. For `%W`, all days in a new year preceding the first Monday are considered to be in week 0. Week numbers are computed using [*interval*.count](https://github.com/d3/d3-time/blob/master/README.md#interval_count). For example, 2015-52 and 2016-00 represent Monday, December 28, 2015, while 2015-53 and 2016-01 represent Monday, January 4, 2016. This differs from the [ISO week date](https://en.wikipedia.org/wiki/ISO_week_date) specification (`%V`), which uses a more complicated definition!
 
-For `%V`, per the [strftime man page](http://man7.org/linux/man-pages/man3/strftime.3.html):
+For `%V`,`%g` and `%G`, per the [strftime man page](http://man7.org/linux/man-pages/man3/strftime.3.html):
 
-> In this system, weeks start on a Monday, and are numbered from 01, for the first week, up to 52 or 53, for the last week.  Week 1 is the first week where four or more days fall within the new year (or, synonymously, week 01 is: the first week of the year that contains a Thursday; or, the week that has 4 January in it).
+> In this system, weeks start on a Monday, and are numbered from 01, for the first week, up to 52 or 53, for the last week.  Week 1 is the first week where four or more days fall within the new year (or, synonymously, week 01 is: the first week of the year that contains a Thursday; or, the week that has 4 January in it). If the ISO week number belongs to the previous or next year, that year is used instead.
 
 The `%` sign indicating a directive may be immediately followed by a padding modifier:
 

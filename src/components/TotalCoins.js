@@ -24,14 +24,14 @@ export default class TotalCoins extends AmountWidget {
   updateAmount() {
     totalCoins(this.props.horizonURL)
       .then(amount => {
-        let code = "HCX";
+        let code = "WBB";
         this.setState({amount, code, loading: false});
       });
   }
 
   renderName() {
     return <div>
-      <span>Total HCX</span>
+      <span>Total WBB</span>
 {/*      <a href={`${this.props.horizonURL}/ledgers/?order=desc&limit=1`} target="_blank" className="api-link">API</a>*/}
     </div>
   }
